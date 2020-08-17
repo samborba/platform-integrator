@@ -1,24 +1,69 @@
-# PlatIAoT
-PlatIAot is a scalable server capable of integrating the @dojot IoT platform and the artificial intelligence platform for agribusiness @Platiagro. The project is built using Node.js and makes use of Socket.IO library for bidirectional transmission in real time between platforms and Express.js framework for request handler.
+# Platform Integrator
 
-The sequence diagram below contains a sequence diagram with only two clients:
-![How it works](docs/assets/how-it-works.png)
+## Requirements
 
-## How it works
-PlatIAoT is composed of 2 clients (or more) and 1 server, in which they communicate through the [WebSocket](https://developer.mozilla.org/pt-BR/docs/WebSockets) protocol (and polling as a fallback option). For each platform, there is an existing client on which it communicates with a server, using it as an intermediary to redirect data.
+You may start the server locally or using a docker container, the requirements for each setup are listed below.
 
-## Configuring the application
-### Installation of dependencies
-Before starting to use the server, it is necessary to install the dependencies required by the application::
-1. Install Node.js interpreter (Check [website](https://nodejs.org/en/download/package-manager/) and select the version according to your operating system)
-2. Clone this repository and go to the root of the project
-3. Install the dependencies that are in the package.json file by running the command ``npm install``
+### Local
 
-### PlatIAoT Environment
-At the root of the project it contains the file **config.json.example**, where it contains all the authentication and connection information that the application will need. Just fill in all the fields with their respective values, and immediately after, remove the **.example** extension from the file name.
+- [Latest Node.js](https://nodejs.org/en/download/) 
 
-### Dojot Environment
-### PlatIAgro Environment
+### Docker
+ - [Docker CE](https://www.docker.com/get-docker)
 
-## How to use
-Just run the command ``npm start`` on your terminal. The server address will be available on the host along with the port you entered in the config.json file.
+## Quick Start
+Make sure you have all requirements installed on your computer. Then, you may start the server using either a [Docker container](https://github.com/platiagro/projects#run-using-docker) or in your [local machine](https://github.com/platiagro/projects#run-local).
+
+### Run using Docker
+Export these environment variables:
+``` bash
+export DOJOT_ENDPOINT=localhost:8000
+export DOJOT_USERNAME=admin
+export DOJOT_PASSWORD=admin
+export DOJOT_DEVICE=all
+export PLATIAGRO_ENDPOINT=platiagro
+export EXPERIMENT_ID=dfd7a767-a20c-4424-bf1b-287071218de1
+export SERVER_PORT=3030
+export SERVER_KEY=dfd7a767-a20c-4424-bf1b-287071218de1
+```
+Notes: DOJOT_DEVICE refers to the device you are listening to, it can be "all" to hear all registered or else the specific id of a device. SERVER_KEY is the uuid that will be the secret key to access your server and the EXPERIMENT_ID is the model to be used in the PlatIAgro API.
+
+Then, build a docker image that launches the API server:
+```bash
+docker build -t platiagro/dojot-integration:0.1.0 .
+```
+Finally, start the API server:
+```bash
+docker run -it -p 3030:3030 \                                                        
+  --name integrator \
+  --env "DOJOT_ENDPOINT=$DOJOT_ENDPOINT" \
+  --env "DOJOT_USERNAME=$DOJOT_USERNAME" \
+  --env "DOJOT_PASSWORD=$DOJOT_PASSWORD" \
+  --env "DOJOT_DEVICE=$DOJOT_DEVICE" \
+  --env "PLATIAGRO_ENDPOINT=$PLATIAGRO_ENDPOINT" \
+  --env "EXPERIMENT_ID=$EXPERIMENT_ID" \
+  --env "SERVER_PORT=$SERVER_PORT" \
+  --env "SERVER_KEY=$SERVER_KEY" \
+  platiagro/dojot-integration:0.1.0
+```
+### Run Local:
+
+Export these environment variables:
+``` bash
+export DOJOT_ENDPOINT=localhost:8000
+export DOJOT_USERNAME=admin
+export DOJOT_PASSWORD=admin
+export DOJOT_DEVICE=all
+export PLATIAGRO_ENDPOINT=platiagro
+export EXPERIMENT_ID=dfd7a767-a20c-4424-bf1b-287071218de1
+export SERVER_PORT=3030
+export SERVER_KEY=dfd7a767-a20c-4424-bf1b-287071218de1
+```
+Install Node.js modules:
+```bash
+npm install
+```
+Then, start the API server:
+```bash
+npm start
+```
