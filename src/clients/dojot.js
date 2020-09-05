@@ -1,10 +1,12 @@
 import Axios from "axios";
 import io from "socket.io-client";
 import { sign } from "jsonwebtoken";
+import mqtt from "mqtt";
 
 import { DojotConfig, ServerConfig } from "../config";
 
-const { username, passwd, dojot } = DojotConfig;
+const { username, passwd, dojot, mqttPort, device } = DojotConfig;
+const host = dojot.split(":").shift();
 const { serverPort } = ServerConfig;
 
 const serverEndpoint = `http://localhost:${serverPort}/`;
@@ -37,6 +39,18 @@ async function getSocketToken(endpoint, username, password) {
   }
 }
 
+async function dataStructuring({ data }) {
+  const keys = data.names;
+  const values = data.ndarray.shift();
+  const response = {};
+
+  keys.forEach((key, index) => {
+    response[key] = values[index];
+  });
+
+  return JSON.stringify(response);
+}
+
 function getServerToken(payload, secretKey) {
   return { token: sign(payload, secretKey) };
 }
@@ -44,6 +58,10 @@ function getServerToken(payload, secretKey) {
 async function dojotSocketConnection(serverSecretKey) {
   const token = await getSocketToken("stream/socketio", username, passwd);
   const serverToken = getServerToken("Dojot", serverSecretKey);
+  const client = mqtt.connect(`mqtt://${host}:${mqttPort}`, {
+    keepalive: 0,
+    connectTimeout: 60 * 60 * 1000,
+  });
 
   const serverConnection = io(serverEndpoint, {
     query: serverToken,
@@ -53,8 +71,6 @@ async function dojotSocketConnection(serverSecretKey) {
   console.log("[Dojot Client] Waiting for server connection...");
 
   serverConnection.on("connect", () => {
-    const listenTo = DojotConfig.device;
-
     console.log("[Dojot Client] Connected to server");
 
     const dojotClient = io(`http://${dojot}`, {
@@ -62,8 +78,15 @@ async function dojotSocketConnection(serverSecretKey) {
       transports: ["websocket"],
     });
 
-    dojotClient.on(listenTo, (inconmingData) => {
+    dojotClient.on(device, (inconmingData) => {
       serverConnection.emit("receiving-dojot-data", inconmingData);
+    });
+
+    serverConnection.on("model-predict-response", async (predict) => {
+      const topic = `/${username}/${DojotConfig.mock}/attrs`;
+      const payload = await dataStructuring(predict);
+
+      client.publish(topic, payload);
     });
 
     serverConnection.on("disconnect", (event) => {

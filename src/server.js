@@ -46,10 +46,6 @@ platIAoT.on("connection", (socket) => {
     if (structured) platIAoT.emit("incoming-dojot-data", structured);
   });
 
-  socket.on("predict-result", async (predict) => {
-    console.log(predict);
-  });
-
   socket.on("disconnect", (event) => {
     console.log(
       `[Server] Client ${socket.decoded} was disconnected due to ${event}`
