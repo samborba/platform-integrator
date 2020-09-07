@@ -58,10 +58,6 @@ function getServerToken(payload, secretKey) {
 async function dojotSocketConnection(serverSecretKey) {
   const token = await getSocketToken("stream/socketio", username, passwd);
   const serverToken = getServerToken("Dojot", serverSecretKey);
-  const client = mqtt.connect(`mqtt://${host}:${mqttPort}`, {
-    keepalive: 0,
-    connectTimeout: 60 * 60 * 1000,
-  });
 
   const serverConnection = io(serverEndpoint, {
     query: serverToken,
@@ -85,8 +81,14 @@ async function dojotSocketConnection(serverSecretKey) {
     serverConnection.on("model-predict-response", async (predict) => {
       const topic = `/${username}/${DojotConfig.mock}/attrs`;
       const payload = await dataStructuring(predict);
+      const client = mqtt.connect(`mqtt://${host}:${mqttPort}`, {
+        keepalive: 0,
+        connectTimeout: 60 * 60 * 1000,
+      });
 
-      client.publish(topic, payload);
+      client.on("connect", () => {
+        client.publish(topic, payload);
+      });
     });
 
     serverConnection.on("disconnect", (event) => {
