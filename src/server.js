@@ -10,7 +10,7 @@ server.listen(ServerConfig.serverPort, () => {
   console.log(`### Server is up ###`);
 });
 
-async function dataStructuring({ attrs }) {
+async function platiagroFormat({ attrs }) {
   try {
     return JSON.stringify({
       data: {
@@ -21,6 +21,18 @@ async function dataStructuring({ attrs }) {
   } catch (error) {
     console.log(error);
   }
+}
+
+async function dojotFormat({ data }) {
+  const keys = data.names;
+  const values = data.ndarray.shift();
+  const response = {};
+
+  keys.forEach((key, index) => {
+    response[key] = values[index];
+  });
+
+  return JSON.stringify(response);
 }
 
 platIAoT.use((socket, next) => {
@@ -42,7 +54,7 @@ platIAoT.on("connection", (socket) => {
   );
 
   socket.on("receiving-dojot-data", async (rawData) => {
-    const structured = await dataStructuring(rawData);
+    const structured = await platiagroFormat(rawData);
     if (structured) platIAoT.emit("incoming-dojot-data", structured);
   });
 
@@ -53,6 +65,12 @@ platIAoT.on("connection", (socket) => {
     console.log(
       `[Server] Total of clients connected: ${platIAoT.engine.clientsCount}`
     );
+  });
+
+  socket.on("predict-result", async (response) => {
+    const payload = await dojotFormat(response);
+
+    platIAoT.emit("model-predict-response", payload);
   });
 
   socket.on("reconnection", () => {

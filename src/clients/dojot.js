@@ -39,18 +39,6 @@ async function getSocketToken(endpoint, username, password) {
   }
 }
 
-async function dataStructuring({ data }) {
-  const keys = data.names;
-  const values = data.ndarray.shift();
-  const response = {};
-
-  keys.forEach((key, index) => {
-    response[key] = values[index];
-  });
-
-  return JSON.stringify(response);
-}
-
 function getServerToken(payload, secretKey) {
   return { token: sign(payload, secretKey) };
 }
@@ -78,9 +66,8 @@ async function dojotSocketConnection(serverSecretKey) {
       serverConnection.emit("receiving-dojot-data", inconmingData);
     });
 
-    serverConnection.on("model-predict-response", async (predict) => {
+    serverConnection.on("model-predict-response", (payload) => {
       const topic = `/${username}/${DojotConfig.mock}/attrs`;
-      const payload = await dataStructuring(predict);
       const client = mqtt.connect(`mqtt://${host}:${mqttPort}`, {
         keepalive: 0,
         connectTimeout: 60 * 60 * 1000,
