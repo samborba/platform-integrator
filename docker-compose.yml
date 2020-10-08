@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  app:
+    container_name: projects
+    build: .
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - ${CONTAINER_PORT:-3030}:${HOST_PORT:-3030}
+    environment:
+      - DOJOT_ENDPOINT=localhost:8000
+      - DOJOT_USERNAME=admin
+      - DOJOT_PASSWORD=admin
+      - DOJOT_DEVICE=all
+      - PLATIAGRO_ENDPOINT=platiagro
+      - EXPERIMENT_ID=dfd7a767-a20c-4424-bf1b-287071218de1
+      - SERVER_PORT=3030
+      - SERVER_KEY=dfd7a767-a20c-4424-bf1b-287071218de1
+
+  db:
+    container_name: "${DB_HOST:-mysql}"
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - ${DB_PORT:-3306}:${DB_PORT:-3306}
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE:-integrator}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true

@@ -5,10 +5,10 @@ import mqtt from "mqtt";
 
 import { DojotConfig, ServerConfig } from "../config";
 
-const { username, passwd, dojot, mqttPort, device } = DojotConfig;
-const host = dojot.split(":").shift();
-const { serverPort } = ServerConfig;
+const { username, passwd, dojot, mqttPort } = DojotConfig;
+const { serverPort, secretKey } = ServerConfig;
 
+const host = dojot.split(":").shift();
 const serverEndpoint = `http://localhost:${serverPort}/`;
 
 async function getAuthJwt(username, passwd) {
@@ -43,9 +43,9 @@ function getServerToken(payload, secretKey) {
   return { token: sign(payload, secretKey) };
 }
 
-async function dojotSocketConnection(serverSecretKey) {
+module.exports = async function (device, mock) {
   const token = await getSocketToken("stream/socketio", username, passwd);
-  const serverToken = getServerToken("Dojot", serverSecretKey);
+  const serverToken = getServerToken("Dojot", secretKey);
 
   const serverConnection = io(serverEndpoint, {
     query: serverToken,
@@ -67,7 +67,7 @@ async function dojotSocketConnection(serverSecretKey) {
     });
 
     serverConnection.on("model-predict-response", (payload) => {
-      const topic = `/${username}/${DojotConfig.mock}/attrs`;
+      const topic = `/${username}/${mock}/attrs`;
       const client = mqtt.connect(`mqtt://${host}:${mqttPort}`, {
         keepalive: 0,
         connectTimeout: 60 * 60 * 1000,
@@ -90,6 +90,4 @@ async function dojotSocketConnection(serverSecretKey) {
   serverConnection.on("error", (error) => {
     console.log(error);
   });
-}
-
-dojotSocketConnection(ServerConfig.secretKey);
+};

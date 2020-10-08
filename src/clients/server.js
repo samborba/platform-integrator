@@ -1,7 +1,7 @@
 import socket from "socket.io";
 import http from "http";
 import { verify } from "jsonwebtoken";
-import { ServerConfig } from "./config";
+import { ServerConfig } from "../config";
 
 const server = http.Server();
 const platIAoT = socket(server);

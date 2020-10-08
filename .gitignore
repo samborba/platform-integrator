@@ -1,4 +1,4 @@
-# Dependency directories/files
+# dependency directories/files
 node_modules
 
 # dotenv environment variables file
@@ -7,3 +7,6 @@ config.json
 
 # npm
 package-lock.json
+
+# sensitive data
+data/

@@ -4,16 +4,16 @@ import { sign } from "jsonwebtoken";
 import { ServerConfig, PlatiagroConfig } from "../config";
 
 const { secretKey, serverPort } = ServerConfig;
-const { platiagro, experimentId } = PlatiagroConfig;
+const { platiagro } = PlatiagroConfig;
 
 const serverEndpoint = `http://localhost:${serverPort}/`;
-const modelEndpoint = `http://${platiagro}/seldon/deployments/${experimentId}/api/v1.0/predictions`;
 
 function getServerToken(payload, secretKey) {
   return { token: sign(payload, secretKey) };
 }
 
-function platiagroSocketConnection() {
+module.exports = (experimentId) => {
+  const modelEndpoint = `http://${platiagro}/seldon/deployments/${experimentId}/api/v1.0/predictions`;
   const token = getServerToken("PlatIAgro", secretKey);
 
   const platiagroClient = io(serverEndpoint, {
@@ -58,5 +58,3 @@ function platiagroSocketConnection() {
     });
   });
 }
-
-platiagroSocketConnection();
