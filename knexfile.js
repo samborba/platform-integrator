@@ -3,9 +3,9 @@ module.exports = {
   development: {
     client: "mysql",
     connection: {
-      host: `${process.env.MYSQL_HOST || "127.0.0.1"}`,
-      port: `${process.env.MYSQL_PORT || 3306}`,
-      user: "root",
+      host: `${process.env.MYSQL_DB_HOST || "127.0.0.1"}`,
+      port: `${process.env.MYSQL_DB_PORT || 3306}`,
+      user: `${process.env.MYSQL_DB_USER || "root"}`,
       database: "integrator",
     },
     migrations: {

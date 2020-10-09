@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import knex from "../database/index";
+import knex from "../database";
 
 import dojotSocketConnection from "../clients/dojot";
 import platiagroSocketConnection from "../clients/platiagro";

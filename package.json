@@ -1,8 +1,8 @@
 {
-  "name": "platiaot",
+  "name": "integrator",
   "version": "1.0.0",
-  "description": "PlatIAot is a scalable server capable of integrating the @dojot IoT platform and the artificial intelligence platform for agribusiness @Platiagro. The project is built using Node.js and makes use of Socket.IO library for bidirectional transmission in real time between platforms and Express.js framework for request handler.",
-  "main": "src/server.js",
+  "description": "Integrator is a scalable server capable of integrating the @dojot IoT platform and the artificial intelligence platform for agribusiness @Platiagro. The project is built using Node.js and makes use of Socket.IO library for bidirectional transmission in real time between platforms and Express.js framework for request handler.",
+  "main": "src/app.js",
   "directories": {
     "doc": "docs"
   },
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/samborba/PlatIAoT.git"
+    "url": "git+https://github.com/samborba/platform-integrator.git"
   },
   "author": "Samuel F. Borba",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/samborba/PlatIAoT/issues"
+    "url": "https://github.com/samborba/platform-integrator/issues"
   },
-  "homepage": "https://github.com/samborba/PlatIAoT#readme",
+  "homepage": "https://github.com/samborba/platform-integrator#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
