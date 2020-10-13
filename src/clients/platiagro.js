@@ -13,7 +13,7 @@ function getServerToken(payload, secretKey) {
 }
 
 module.exports = (experimentId) => {
-  const modelEndpoint = `${platiagro}/seldon/deployments/${experimentId}/api/v1.0/predictions`;
+  const modelEndpoint = `http://${platiagro}/seldon/deployments/${experimentId}/api/v1.0/predictions`;
   const token = getServerToken("PlatIAgro", secretKey);
 
   const platiagroClient = io(serverEndpoint, {

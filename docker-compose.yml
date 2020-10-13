@@ -12,12 +12,13 @@ services:
     command: ["-c", "knex migrate:latest && knex seed:run && npm start"]
     entrypoint: ["/bin/sh"]
     environment:
-      - DOJOT_ENDPOINT=127.0.0.1:8000
+      - DOJOT_ENDPOINT=dojot
       - DOJOT_USERNAME=admin
       - DOJOT_PASSWORD=admin
       - MYSQL_DB_USER=root
       - PLATIAGRO_ENDPOINT=platiagro
       - SERVER_PORT=3030
+      - SERVER_KEY="bf06c9e3-78d3-422b-8a1e-6f3909add993"
       - APP_PORT=3333
 
   db:

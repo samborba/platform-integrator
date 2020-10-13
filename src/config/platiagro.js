@@ -1,3 +1,3 @@
 export default {
-  platiagro: process.env.PLATIAGRO_ENDPOINT || "projects",
+  platiagro: process.env.PLATIAGRO_ENDPOINT || "platiagro",
 };

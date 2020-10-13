@@ -12,7 +12,7 @@ const host = dojot.split(":").shift();
 const serverEndpoint = `http://localhost:${serverPort}/`;
 
 async function getAuthJwt(username, passwd) {
-  const userAuthUrl = `${dojot}/auth`;
+  const userAuthUrl = `http://${dojot}/auth`;
   try {
     const response = await Axios.post(userAuthUrl, {
       username,
@@ -29,7 +29,7 @@ async function getSocketToken(endpoint, username, password) {
   const authJwt = await getAuthJwt(username, password);
 
   try {
-    const response = await Axios.get(`${dojot}/${endpoint}`, {
+    const response = await Axios.get(`http://${dojot}/${endpoint}`, {
       headers: { Authorization: `Bearer ${authJwt}` },
     });
 
@@ -57,7 +57,7 @@ module.exports = async function (device, mock) {
   serverConnection.on("connect", () => {
     console.log("[Dojot Client] Connected to server");
 
-    const dojotClient = io(`${dojot}`, {
+    const dojotClient = io(`http://${dojot}`, {
       query: token,
       transports: ["websocket"],
     });
