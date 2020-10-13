@@ -23,6 +23,7 @@ export DOJOT_PASSWORD=admin
 export SERVER_KEY=dfd7a767-a20c-4424-bf1b-287071218de1
 export SERVER_PORT=3030
 export APP_PORT=3333
+export MQTT_PORT=1883
 ```
 
 Then, build a docker image that launches the API server:
@@ -41,6 +42,7 @@ docker run -it -p 3030:3030 \
 --env "SERVER_KEY=$SERVER_KEY" \
 --env "SERVER_PORT=$SERVER_PORT" \
 --env "APP_PORT=$APP_PORT" \
+--env "MQTT_PORT=$MQTT_PORT"
 platiagro/dojot-integration:0.1.0
 ```
 
@@ -53,6 +55,7 @@ export DOJOT_PASSWORD=admin
 export APP_PORT=3333
 export SERVER_PORT=3030
 export SERVER_KEY=dfd7a767-a20c-4424-bf1b-287071218de1
+export MQTT_PORT=1883
 ```
 
 Install Node.js modules:

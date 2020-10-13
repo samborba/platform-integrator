@@ -5,8 +5,8 @@ import mqtt from "mqtt";
 
 import { DojotConfig, ServerConfig } from "../config";
 
-const { username, passwd, dojot, mqttPort } = DojotConfig;
-const { serverPort, secretKey } = ServerConfig;
+const { username, passwd, dojot } = DojotConfig;
+const { serverPort, secretKey, mqttPort } = ServerConfig;
 
 const host = dojot.split(":").shift();
 const serverEndpoint = `http://localhost:${serverPort}/`;
