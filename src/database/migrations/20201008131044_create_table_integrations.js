@@ -5,7 +5,7 @@ exports.up = (knex) => {
     table.string("origin", 255).notNullable();
     table.string("destination", 255).notNullable();
 
-    table.string("experimentUrl", 255).notNullable();
+    table.string("experimentId", 255).notNullable();
     table.string("status", 255).notNullable().defaultTo("Running");
 
     table.timestamp("createdAt").defaultTo(knex.fn.now());

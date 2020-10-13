@@ -11,18 +11,21 @@ export default {
   },
   async create(req, res) {
     const uuid = uuidv4();
-    const { origin, destination, experimentUrl } = req.body;
+    const { origin, destination, experimentId } = req.body;
 
     await knex("integrations").insert({
       uuid,
       origin,
       destination,
-      experimentUrl,
+      experimentId,
     });
 
     dojotSocketConnection(origin, destination);
-    platiagroSocketConnection(experimentUrl);
+    platiagroSocketConnection(experimentId);
 
-    return res.send({ message: "Integration was started." });
+    return res.send({
+      message: "Integration was started",
+      integration: { uuid, origin, destination, experimentId },
+    });
   },
 };

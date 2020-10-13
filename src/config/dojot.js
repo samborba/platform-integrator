@@ -1,5 +1,5 @@
 export default {
-  dojot: process.env.DOJOT_ENDPOINT || "127.0.0.1:8000",
+  dojot: process.env.DOJOT_ENDPOINT || "dojot",
   username: process.env.DOJOT_USERNAME || "admin",
   passwd: process.env.DOJOT_PASSWORD || "admin",
 };

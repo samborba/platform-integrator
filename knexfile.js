@@ -3,8 +3,7 @@ module.exports = {
   development: {
     client: "mysql",
     connection: {
-      host: `${process.env.MYSQL_DB_HOST || "127.0.0.1"}`,
-      port: `${process.env.MYSQL_DB_PORT || 3306}`,
+      host: `${process.env.MYSQL_DB_HOST || "db"}`,
       user: `${process.env.MYSQL_DB_USER || "root"}`,
       database: "integrator",
     },

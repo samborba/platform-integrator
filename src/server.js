@@ -1,7 +1,7 @@
 import socket from "socket.io";
 import http from "http";
 import { verify } from "jsonwebtoken";
-import { ServerConfig } from "../config";
+import { ServerConfig } from "./config";
 
 const server = http.Server();
 const platIAoT = socket(server);
@@ -55,6 +55,7 @@ platIAoT.on("connection", (socket) => {
 
   socket.on("receiving-dojot-data", async (rawData) => {
     const structured = await platiagroFormat(rawData);
+
     if (structured) platIAoT.emit("incoming-dojot-data", structured);
   });
 

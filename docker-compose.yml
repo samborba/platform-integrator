@@ -9,6 +9,8 @@ services:
       - db
     ports:
       - ${CONTAINER_PORT:-3030}:${HOST_PORT:-3030}
+    command: ["-c", "knex migrate:latest && knex seed:run && npm start"]
+    entrypoint: ["/bin/sh"]
     environment:
       - DOJOT_ENDPOINT=127.0.0.1:8000
       - DOJOT_USERNAME=admin

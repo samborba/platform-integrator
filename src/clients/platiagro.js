@@ -13,7 +13,7 @@ function getServerToken(payload, secretKey) {
 }
 
 module.exports = (experimentId) => {
-  const modelEndpoint = `http://${platiagro}/seldon/deployments/${experimentId}/api/v1.0/predictions`;
+  const modelEndpoint = `${platiagro}/seldon/deployments/${experimentId}/api/v1.0/predictions`;
   const token = getServerToken("PlatIAgro", secretKey);
 
   const platiagroClient = io(serverEndpoint, {
@@ -36,7 +36,7 @@ module.exports = (experimentId) => {
         console.log(error);
       });
 
-      platiagroClient.emit("predict-result", response.data.data);
+      platiagroClient.emit("predict-result", response.data);
     });
 
     platiagroClient.on("disconnect", (event) => {
