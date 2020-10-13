@@ -6,8 +6,7 @@ COPY package*.json ./
 
 RUN npm cache clean --force
 
-RUN npm install
+RUN npm install && \
+    npm install -g knex
 
 COPY . ./
-
-ENTRYPOINT ["npm", "start"]

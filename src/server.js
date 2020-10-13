@@ -55,6 +55,7 @@ platIAoT.on("connection", (socket) => {
 
   socket.on("receiving-dojot-data", async (rawData) => {
     const structured = await platiagroFormat(rawData);
+
     if (structured) platIAoT.emit("incoming-dojot-data", structured);
   });
 

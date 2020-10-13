@@ -1,37 +1,40 @@
 {
-  "name": "platiaot",
+  "name": "integrator",
   "version": "1.0.0",
-  "description": "PlatIAot is a scalable server capable of integrating the @dojot IoT platform and the artificial intelligence platform for agribusiness @Platiagro. The project is built using Node.js and makes use of Socket.IO library for bidirectional transmission in real time between platforms and Express.js framework for request handler.",
-  "main": "src/server.js",
+  "description": "Integrator is a scalable server capable of integrating the @dojot IoT platform and the artificial intelligence platform for agribusiness @Platiagro. The project is built using Node.js and makes use of Socket.IO library for bidirectional transmission in real time between platforms and Express.js framework for request handler.",
+  "main": "src/app.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "start": "npm-run-all -p dev:*",
-    "dev:server": "nodemon src/server.js",
-    "dev:platiagro": "nodemon src/clients/platiagro.js",
-    "dev:dojot": "nodemon src/clients/dojot.js"
+    "start": "npm-run-all -p prod:*",
+    "prod:app": "nodemon src/app.js",
+    "prod:server": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/samborba/PlatIAoT.git"
+    "url": "git+https://github.com/samborba/platform-integrator.git"
   },
   "author": "Samuel F. Borba",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/samborba/PlatIAoT/issues"
+    "url": "https://github.com/samborba/platform-integrator/issues"
   },
-  "homepage": "https://github.com/samborba/PlatIAoT#readme",
+  "homepage": "https://github.com/samborba/platform-integrator#readme",
   "dependencies": {
     "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
     "bull": "^3.13.0",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.6",
     "mqtt": "^2.18.8",
+    "mysql": "^2.18.1",
     "socket.io": "^2.3.0",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^2.3.0",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
