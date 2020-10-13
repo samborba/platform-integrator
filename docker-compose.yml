@@ -16,7 +16,6 @@ services:
       - DOJOT_USERNAME=admin
       - DOJOT_PASSWORD=admin
       - MYSQL_DB_USER=root
-      - PLATIAGRO_ENDPOINT=platiagro
       - SERVER_PORT=3030
       - SERVER_KEY="bf06c9e3-78d3-422b-8a1e-6f3909add993"
       - APP_PORT=3333

@@ -1,10 +1,9 @@
 import io from "socket.io-client";
 import Axios from "axios";
 import { sign } from "jsonwebtoken";
-import { ServerConfig, PlatiagroConfig } from "../config";
+import { ServerConfig } from "../config";
 
 const { secretKey, serverPort } = ServerConfig;
-const { platiagro } = PlatiagroConfig;
 
 const serverEndpoint = `http://localhost:${serverPort}/`;
 
@@ -12,8 +11,7 @@ function getServerToken(payload, secretKey) {
   return { token: sign(payload, secretKey) };
 }
 
-module.exports = (experimentId) => {
-  const modelEndpoint = `http://${platiagro}/seldon/deployments/${experimentId}/api/v1.0/predictions`;
+module.exports = (experimentURL) => {
   const token = getServerToken("PlatIAgro", secretKey);
 
   const platiagroClient = io(serverEndpoint, {
@@ -30,7 +28,7 @@ module.exports = (experimentId) => {
     console.log("[PlatIAgro Client] Connected to the server");
 
     platiagroClient.on("incoming-dojot-data", async (structuredData) => {
-      const response = await Axios.post(modelEndpoint, structuredData, {
+      const response = await Axios.post(experimentURL, structuredData, {
         headers: { "Content-type": "application/json" },
       }).catch((error) => {
         console.log(error);
@@ -57,4 +55,4 @@ module.exports = (experimentId) => {
       );
     });
   });
-}
+};

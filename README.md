@@ -20,7 +20,6 @@ Export these environment variables:
 export DOJOT_ENDPOINT=dojot
 export DOJOT_USERNAME=admin
 export DOJOT_PASSWORD=admin
-export PLATIAGRO_ENDPOINT=platiagro
 export SERVER_KEY=dfd7a767-a20c-4424-bf1b-287071218de1
 export SERVER_PORT=3030
 export APP_PORT=3333
@@ -38,7 +37,6 @@ docker run -it -p 3030:3030 \
 --env "DOJOT_ENDPOINT=$DOJOT_ENDPOINT" \
 --env "DOJOT_USERNAME=$DOJOT_USERNAME" \
 --env "DOJOT_PASSWORD=$DOJOT_PASSWORD" \
---env "PLATIAGRO_ENDPOINT=$PLATIAGRO_ENDPOINT" \
 --env "SERVER_PORT=$SERVER_PORT" \
 --env "SERVER_KEY=$SERVER_KEY" \
 --env "SERVER_PORT=$SERVER_PORT" \
@@ -52,7 +50,6 @@ Export these environment variables:
 export DOJOT_ENDPOINT=dojot
 export DOJOT_USERNAME=admin
 export DOJOT_PASSWORD=admin
-export PLATIAGRO_ENDPOINT=platiagro
 export APP_PORT=3333
 export SERVER_PORT=3030
 export SERVER_KEY=dfd7a767-a20c-4424-bf1b-287071218de1
@@ -75,7 +72,7 @@ POST body:
 {
   "origin": "1fa592",
   "destination": "9fa548",
-  "experimentId": "bf06c9e3-78d3-422b-8a1e-6f3909add993"
+  "experimentURL": "http://awsplatiagro04/seldon/deployments/bf06c9e3-78d3-422b-8a1e-6f3909add993/api/v1.0/predictions"
 }
 ```
 Response body:
@@ -86,7 +83,7 @@ Response body:
     "uuid": "6a903a7a-c5ac-475b-bf8e-b6fa72fb22f3",
     "origin": "1fa592",
     "destination": "9fa548",
-    "experimentId": "bf06c9e3-78d3-422b-8a1e-6f3909add993"
+    "experimentURL": "http://awsplatiagro04/seldon/deployments/bf06c9e3-78d3-422b-8a1e-6f3909add993/api/v1.0/predictions"
   }
 }
 ```
@@ -101,7 +98,7 @@ Response body:
       "uuid": "427c908d-9624-4721-b67b-980b6989e6ee",
       "origin": "Prometheus",
       "destination": "Athenas",
-      "experimentId": "awsplatiagro04",
+      "experimentURL": "http://awsplatiagro04/seldon/deployments/59a44281-3055-4907-b890-7df7c1a328d4/api/v1.0/predictions",
       "status": "Running",
       "createdAt": "2020-10-13T20:02:49.000Z",
       "finishedAt": "2020-10-13T20:02:49.000Z"
@@ -110,7 +107,7 @@ Response body:
       "uuid": "a2f626c9-5e08-4eca-a5d7-5aa6baaa7982",
       "origin": "Selene",
       "destination": "Eros",
-      "experimentId": "awsplatiagro02",
+      "experimentURL": "http://awsplatiagro02/seldon/deployments/8417e9d0-2ac9-41cb-8e1d-a5a89ef68212/api/v1.0/predictions",
       "status": "Stopped",
       "createdAt": "2020-10-13T20:02:49.000Z",
       "finishedAt": "2020-10-13T20:02:49.000Z"
@@ -122,7 +119,7 @@ ___
 #### Request Summary:
  - origin: real device, where the data is being generated/transmitted from;
 - destination: **virtual device** created at Dojot to **only receive data** generated from the model implanted in the platiagro;
-- experimentId: experiment id created at PlatIAgro;
+- experimentURL: URL of the experiment deployment created at PlatIAgro;
 
 *For more details on how to use any of the platforms, please, check [PlatIAgro](https://platiagro.github.io/docs/experiments/) and [Dojot documentation](https://dojotdocs.readthedocs.io/en/latest/using-web-interface.html).*
 ___
