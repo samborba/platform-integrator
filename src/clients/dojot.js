@@ -6,9 +6,8 @@ import mqtt from "mqtt";
 import { DojotConfig, ServerConfig } from "../config";
 
 const { username, passwd, dojot } = DojotConfig;
-const { serverPort, secretKey, mqttPort } = ServerConfig;
+const { serverPort, secretKey, mqttHost } = ServerConfig;
 
-const host = dojot.split(":").shift();
 const serverEndpoint = `http://localhost:${serverPort}/`;
 
 async function getAuthJwt(username, passwd) {
@@ -68,7 +67,7 @@ module.exports = async function (device, mock) {
 
     serverConnection.on("model-predict-response", (payload) => {
       const topic = `/${username}/${mock}/attrs`;
-      const client = mqtt.connect(`mqtt://${host}:${mqttPort}`, {
+      const client = mqtt.connect(`mqtt://${mqttHost}`, {
         keepalive: 0,
         connectTimeout: 60 * 60 * 1000,
       });

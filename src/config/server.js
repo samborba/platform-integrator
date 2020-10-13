@@ -1,5 +1,5 @@
 export default {
   serverPort: process.env.SERVER_PORT || 3030,
   secretKey: process.env.SERVER_KEY,
-  mqttPort: process.env.MQTT_PORT || 1883,
+  mqttHost: process.env.MQTT_HOST,
 };
